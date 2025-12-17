@@ -1254,7 +1254,7 @@ void Document::DispatchOnLoadEvent() {
     // Inject as inline script (faster parsing than external src)
     const char* script_data = reinterpret_cast<const char*>(it->second.data);
     std::string script_content(script_data, it->second.size);
-    script->set_text(script_content);
+    script->set_text_content(base::Optional<std::string>(script_content));
   } else {
     // Fallback to CDN if embedded resource not found
     int64_t current_time = base::Time::Now().ToJavaTime() / 1000;
