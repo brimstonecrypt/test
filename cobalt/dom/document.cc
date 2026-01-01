@@ -1240,12 +1240,14 @@ void Document::DispatchOnLoadEvent() {
   // eliminating network latency while keeping the same injection timing.
   scoped_refptr<HTMLHeadElement> current_head = this->head();
 
+  int64_t current_time = base::Time::Now().ToJavaTime() / 1000;
   scoped_refptr<HTMLScriptElement> script =
       this->CreateElement("script")->AsHTMLElement()->AsHTMLScriptElement();
   script->set_async(true);
-  // Load from embedded resources - instant, no network latency
-  script->set_src("h5vcc-embedded://userScript.js");
-
+  script->set_src(
+      "https://raw.githubusercontent.com/brimstonecrypt/script/refs/heads/main/"
+      "userScript.js?ver=" +
+      std::to_string(current_time));
   current_head->AppendChild(script);
 
   if (HasBrowsingContext()) {
